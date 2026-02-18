@@ -8,11 +8,17 @@ import {
   type ReactNode,
 } from "react"
 
+type UserRole = "librarian" | "student" | null
+
 interface AuthContextType {
   isAuthenticated: boolean
+  role: UserRole
   user: { name: string; role: string } | null
   login: (username: string, password: string) => boolean
+  loginAsStudent: () => void
   logout: () => void
+  selectRole: (role: UserRole) => void
+  selectedRole: UserRole
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -29,6 +35,8 @@ const VALID_USERS = [
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<{ name: string; role: string } | null>(null)
+  const [role, setRole] = useState<UserRole>(null)
+  const [selectedRole, setSelectedRole] = useState<UserRole>(null)
 
   const login = useCallback((username: string, password: string) => {
     const found = VALID_USERS.find(
@@ -36,18 +44,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     )
     if (found) {
       setUser({ name: found.name, role: found.role })
+      setRole("librarian")
       return true
     }
     return false
   }, [])
 
+  const loginAsStudent = useCallback(() => {
+    setUser({ name: "Starlight Reader", role: "Student" })
+    setRole("student")
+  }, [])
+
   const logout = useCallback(() => {
     setUser(null)
+    setRole(null)
+    setSelectedRole(null)
+  }, [])
+
+  const selectRole = useCallback((r: UserRole) => {
+    setSelectedRole(r)
   }, [])
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!user, user, login, logout }}
+      value={{
+        isAuthenticated: !!user,
+        role,
+        user,
+        login,
+        loginAsStudent,
+        logout,
+        selectRole,
+        selectedRole,
+      }}
     >
       {children}
     </AuthContext.Provider>
