@@ -1,6 +1,12 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react"
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -11,9 +17,13 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// Demo credentials
 const VALID_USERS = [
-  { username: "librarian", password: "library123", name: "Rose Librarian", role: "Admin" },
+  {
+    username: "librarian",
+    password: "library123",
+    name: "Rose Librarian",
+    role: "Admin",
+  },
   { username: "admin", password: "admin123", name: "Admin", role: "Admin" },
 ]
 
@@ -36,7 +46,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated: !!user, user, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   )

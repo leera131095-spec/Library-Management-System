@@ -35,7 +35,7 @@ export function Sidebar({ activePage, onNavigate }: SidebarProps) {
       {/* Mobile menu button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-[--radius-md] bg-card fairytale-shadow border border-border/50 text-foreground"
+        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-card fairytale-shadow border border-border/50 text-foreground"
         aria-label="Open navigation menu"
       >
         <Menu className="w-5 h-5" />
@@ -49,7 +49,7 @@ export function Sidebar({ activePage, onNavigate }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar panel */}
       <aside
         className={cn(
           "fixed top-0 left-0 z-50 h-full w-64 bg-card border-r border-border/50 flex flex-col transition-transform duration-300 lg:translate-x-0 fairytale-shadow-lg lg:shadow-none",
@@ -67,16 +67,18 @@ export function Sidebar({ activePage, onNavigate }: SidebarProps) {
 
         {/* Logo */}
         <div className="flex items-center gap-3 px-6 pt-8 pb-6">
-          <div className="w-10 h-10 rounded-[--radius-md] bg-primary/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
             <BookOpen className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h2 className="font-serif text-lg font-bold text-foreground leading-tight">Enchanted</h2>
+            <h2 className="font-serif text-lg font-bold text-foreground leading-tight">
+              Enchanted
+            </h2>
             <p className="text-xs text-muted-foreground">Library System</p>
           </div>
         </div>
 
-        {/* Nav items */}
+        {/* Nav */}
         <nav className="flex-1 px-3 flex flex-col gap-1">
           {navItems.map((item) => {
             const Icon = item.icon
@@ -89,7 +91,7 @@ export function Sidebar({ activePage, onNavigate }: SidebarProps) {
                   setMobileOpen(false)
                 }}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-[--radius-md] text-sm font-medium transition-all text-left w-full",
+                  "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all text-left w-full",
                   isActive
                     ? "bg-primary/10 text-primary"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -104,13 +106,15 @@ export function Sidebar({ activePage, onNavigate }: SidebarProps) {
 
         {/* User section */}
         <div className="px-4 pb-6">
-          <div className="p-4 rounded-[--radius-md] bg-muted/50 border border-border/30">
+          <div className="p-4 rounded-lg bg-muted/50 border border-border/30">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-primary/15 flex items-center justify-center text-sm font-bold text-primary">
                 {user?.name?.charAt(0) || "U"}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">{user?.name}</p>
+                <p className="text-sm font-medium text-foreground truncate">
+                  {user?.name}
+                </p>
                 <p className="text-xs text-muted-foreground">{user?.role}</p>
               </div>
             </div>

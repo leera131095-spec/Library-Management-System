@@ -10,7 +10,10 @@ export async function POST(request: Request) {
   const { title, author, copies } = body
 
   if (!title || !author || !copies) {
-    return NextResponse.json({ error: "All fields are required." }, { status: 400 })
+    return NextResponse.json(
+      { error: "All fields are required." },
+      { status: 400 }
+    )
   }
 
   const book = addBook(title, author, Number(copies))
@@ -22,7 +25,10 @@ export async function DELETE(request: Request) {
   const id = searchParams.get("id")
 
   if (!id) {
-    return NextResponse.json({ error: "Book ID is required." }, { status: 400 })
+    return NextResponse.json(
+      { error: "Book ID is required." },
+      { status: 400 }
+    )
   }
 
   const success = deleteBook(Number(id))

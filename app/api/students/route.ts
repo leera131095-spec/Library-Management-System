@@ -10,7 +10,10 @@ export async function POST(request: Request) {
   const { name } = body
 
   if (!name) {
-    return NextResponse.json({ error: "Student name is required." }, { status: 400 })
+    return NextResponse.json(
+      { error: "Student name is required." },
+      { status: 400 }
+    )
   }
 
   const student = addStudent(name)
