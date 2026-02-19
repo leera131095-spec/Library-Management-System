@@ -2,21 +2,29 @@
 
 import { useState } from "react"
 import { useAuth } from "@/lib/auth-context"
+import { useRouter } from "next/navigation"
 
 export function LoginPage() {
 
   const { login } = useAuth()
 
+  const router = useRouter()
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-
   const [error, setError] = useState("")
 
   const handleLogin = () => {
 
     const success = login(username, password)
 
-    if (!success) {
+    if (success) {
+
+      router.refresh()
+
+    }
+
+    else {
 
       setError("Invalid username or password")
 
@@ -34,7 +42,7 @@ export function LoginPage() {
       flexDirection: "column"
     }}>
 
-      <h1>Login</h1>
+      <h1>📚 Library Login</h1>
 
       <input
         placeholder="Username"
