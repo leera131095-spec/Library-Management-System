@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { LoginPage } from "@/components/login-page"
 import { AppShell } from "@/components/app-shell"
-
+import { StudentShell } from "@/components/student-shell"
 
 export default function Home() {
 
@@ -123,8 +123,6 @@ return <AppShell />
 
 
 // 🌸 STUDENT DASHBOARD
-
-import { StudentShell } from "@/components/student-shell"
 
 if (role === "student") {
 
