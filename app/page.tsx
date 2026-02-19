@@ -124,7 +124,13 @@ return <AppShell />
 
 // 🌸 STUDENT DASHBOARD
 
+import { StudentShell } from "@/components/student-shell"
+
 if (role === "student") {
+
+return <StudentShell />
+
+}
 
 return (
 
