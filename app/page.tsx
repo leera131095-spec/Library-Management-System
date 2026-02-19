@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth-context"
 import { LoginPage } from "@/components/login-page"
 import { AppShell } from "@/components/app-shell"
 import { StudentShell } from "@/components/student-shell"
+import { StudentLogin } from "@/components/student-login"
 
 export default function Home() {
 
@@ -49,11 +50,19 @@ export default function Home() {
     )
   }
 
-  if (role === "student") {
+const [studentLogged,setStudentLogged]=useState(false)
 
-    return <StudentShell />
+if(role==="student" && !studentLogged){
 
-  }
+return <StudentLogin onLogin={()=>setStudentLogged(true)} />
+
+}
+
+if(role==="student" && studentLogged){
+
+return <StudentShell />
+
+}
 
   if (!isAuthenticated) {
 
