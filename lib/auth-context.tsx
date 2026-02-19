@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react"
 
+
 type User = {
   username: string
   password: string
@@ -9,19 +10,25 @@ type User = {
   name: string
 }
 
+
 type AuthContextType = {
+
   user: User | null
+
   login: (username: string, password: string) => boolean
+
   logout: () => void
+
 }
+
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
 
-// ⭐ YOUR REAL USERS
+
+// USERS
 const users: User[] = [
 
-  // Librarian
   {
     username: "admin",
     password: "admin123",
@@ -29,7 +36,6 @@ const users: User[] = [
     name: "Rose Librarian",
   },
 
-  // Students
   {
     username: "alice",
     password: "111",
@@ -54,22 +60,25 @@ const users: User[] = [
 ]
 
 
-export function AuthProvider({ children }: any) {
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const [user, setUser] = useState<User | null>(null)
+
 
 
   const login = (username: string, password: string) => {
 
     const found = users.find(
-      u =>
-        u.username === username &&
-        u.password === password
+
+      u => u.username === username && u.password === password
+
     )
 
     if (found) {
 
       setUser(found)
+
       return true
 
     }
@@ -79,6 +88,7 @@ export function AuthProvider({ children }: any) {
   }
 
 
+
   const logout = () => {
 
     setUser(null)
@@ -86,14 +96,31 @@ export function AuthProvider({ children }: any) {
   }
 
 
+
   return (
 
-    <AuthContext.Provider value={{
-      user,
-      login,
-      logout
-    }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
 
       {children}
 
     </AuthContext.Provider>
+
+  )
+
+}
+
+
+
+export function useAuth() {
+
+  const context = useContext(AuthContext)
+
+  if (!context) {
+
+    throw new Error("useAuth must be used inside AuthProvider")
+
+  }
+
+  return context
+
+}
