@@ -12,43 +12,49 @@ export default function Home() {
 
   const [role, setRole] = useState<"student" | "librarian" | null>(null)
 
-  // STEP 1: Show role selection popup
   if (!role) {
 
     return (
 
-      <div style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        background: "linear-gradient(to bottom, #fbc2eb, #a6c1ee)"
-      }}>
+      <div className="fairytale-bg">
 
-        <h1>📚 Welcome to Library</h1>
+        <div className="fairytale-card">
 
-        <button onClick={() => setRole("student")}>
-          Student
-        </button>
+          <h1 className="title">
+            📚 Dream Library
+          </h1>
 
-        <button onClick={() => setRole("librarian")}>
-          Librarian
-        </button>
+          <p className="subtitle">
+            Choose your destiny
+          </p>
+
+          <button
+            className="magic-button"
+            onClick={() => setRole("student")}
+          >
+            🌸 Enter as Student
+          </button>
+
+          <button
+            className="magic-button"
+            onClick={() => setRole("librarian")}
+          >
+            🔐 Enter as Librarian
+          </button>
+
+        </div>
 
       </div>
 
     )
   }
 
-  // STEP 2: Student goes directly
   if (role === "student") {
 
     return <StudentShell />
 
   }
 
-  // STEP 3: Librarian must login
   if (!isAuthenticated) {
 
     return <LoginPage />
