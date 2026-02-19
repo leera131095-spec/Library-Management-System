@@ -1,98 +1,197 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useAuth } from "@/lib/auth-context";
 
-export function StudentShell(){
+export function StudentShell() {
 
-const [page,setPage]=useState("dashboard")
+  const { user, logout } = useAuth();
 
-if(page==="books"){
+  return (
 
-return(
+    <div className="flex h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100">
 
-<div className="fairytale-bg">
+      {/* Sidebar */}
 
-<div className="fairytale-card">
+      <div className="w-64 bg-white shadow-xl p-5">
 
-<h1>📚 Available Books</h1>
+        <h1 className="text-2xl font-bold text-purple-700 mb-10">
 
-<p>Cinderella</p>
+          📚 Dream Library
 
-<p>Harry Potter</p>
+        </h1>
 
-<p>Little Women</p>
+        <nav className="space-y-4">
 
-<button className="magic-button"
-onClick={()=>setPage("dashboard")}
->
-Back
-</button>
+          <button className="block w-full text-left hover:text-purple-600">
 
-</div>
+            Dashboard
 
-</div>
+          </button>
 
-)
+          <button className="block w-full text-left hover:text-purple-600">
 
-}
+            My Books
 
+          </button>
 
-if(page==="issued"){
+          <button className="block w-full text-left hover:text-purple-600">
 
-return(
+            Fine
 
-<div className="fairytale-bg">
+          </button>
 
-<div className="fairytale-card">
+          <button
+            onClick={logout}
+            className="block w-full text-left text-red-500 hover:text-red-700"
+          >
 
-<h1>⭐ My Books</h1>
+            Logout
 
-<p>Harry Potter</p>
+          </button>
 
-<p>Fine: ₹10</p>
+        </nav>
 
-<button
-className="magic-button"
-onClick={()=>setPage("dashboard")}
->
-Back
-</button>
-
-</div>
-
-</div>
-
-)
-
-}
+      </div>
 
 
-return(
+      {/* Main content */}
 
-<div className="fairytale-bg">
+      <div className="flex-1 p-10">
 
-<div className="fairytale-card">
+        <h2 className="text-3xl font-bold text-purple-800 mb-6">
 
-<h1>🌸 Student Library</h1>
+          Welcome, {user?.name} ✨
 
-<button
-className="magic-button"
-onClick={()=>setPage("books")}
->
-📖 View Books
-</button>
+        </h2>
 
-<button
-className="magic-button"
-onClick={()=>setPage("issued")}
->
-⭐ My Books
-</button>
 
-</div>
+        {/* Cards */}
 
-</div>
+        <div className="grid grid-cols-3 gap-6">
 
-)
+          <div className="bg-white p-6 rounded-2xl shadow-lg">
+
+            <h3 className="text-lg font-semibold">
+
+              Books Issued
+
+            </h3>
+
+            <p className="text-2xl mt-2">
+
+              2
+
+            </p>
+
+          </div>
+
+
+          <div className="bg-white p-6 rounded-2xl shadow-lg">
+
+            <h3 className="text-lg font-semibold">
+
+              Fine Due
+
+            </h3>
+
+            <p className="text-2xl mt-2">
+
+              ₹50
+
+            </p>
+
+          </div>
+
+
+          <div className="bg-white p-6 rounded-2xl shadow-lg">
+
+            <h3 className="text-lg font-semibold">
+
+              Status
+
+            </h3>
+
+            <p className="text-2xl mt-2 text-green-600">
+
+              Active
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+        {/* Table */}
+
+        <div className="mt-10 bg-white p-6 rounded-2xl shadow-lg">
+
+          <h3 className="text-xl font-semibold mb-4">
+
+            My Issued Books
+
+          </h3>
+
+
+          <table className="w-full">
+
+            <thead>
+
+              <tr className="text-left">
+
+                <th>Book</th>
+
+                <th>Due Date</th>
+
+                <th>Status</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr>
+
+                <td>Harry Potter</td>
+
+                <td>20 Feb 2026</td>
+
+                <td className="text-green-600">
+
+                  On Time
+
+                </td>
+
+              </tr>
+
+
+              <tr>
+
+                <td>Alchemist</td>
+
+                <td>15 Feb 2026</td>
+
+                <td className="text-red-600">
+
+                  Late
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  );
 
 }
