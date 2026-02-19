@@ -103,12 +103,12 @@ export function Dashboard() {
               Total Fines Collected
             </p>
             <p className="text-xl font-bold text-foreground font-serif">
-              {stats?.totalFines != null ? `$${stats.totalFines}` : "--"}
+              {stats?.totalFines != null ? `₹₹{stats.totalFines}` : "--"}
             </p>
           </div>
         </div>
         <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-          Fines are calculated at $5 per day for books kept beyond the 7-day
+          Fines are calculated at ₹5 per day for books kept beyond the 7-day
           loan period.
         </p>
       </div>
