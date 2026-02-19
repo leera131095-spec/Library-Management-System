@@ -102,9 +102,9 @@ export function Dashboard() {
             <p className="text-sm text-muted-foreground font-medium">
               Total Fines Collected
             </p>
-            <p className="text-xl font-bold text-foreground font-serif">
-              {stats?.totalFines != null ? `₹{stats.totalFines}` : "--"}
-            </p>
+            <p className="text-2xl font-bold text-amber-700">
+  ₹{stats?.totalFines ?? 0}
+</p>
           </div>
         </div>
         <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
