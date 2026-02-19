@@ -222,14 +222,14 @@ export function ReturnBookPage() {
                     {lastFine > 0 ? "Fine Applied" : "No Fine"}
                   </p>
                   <p className="text-2xl font-bold font-serif text-foreground">
-                    ${lastFine}
+                    ₹{lastFine}
                   </p>
                 </div>
               </div>
               {lastFine > 0 && (
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   The book was returned past the 7-day loan period. Fine:
-                  $5/day overdue.
+                  ₹5/day overdue.
                 </p>
               )}
             </div>
