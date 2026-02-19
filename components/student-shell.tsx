@@ -1,14 +1,47 @@
 "use client";
 
 import { useAuth } from "@/lib/auth-context";
+import { useEffect, useState } from "react";
+
+type IssuedBook = {
+
+  student: string;
+  book: string;
+  dueDate: string;
+  fine: number;
+
+};
 
 export function StudentShell() {
 
   const { user, logout } = useAuth();
 
+  const [books, setBooks] = useState<IssuedBook[]>([]);
+
+  useEffect(() => {
+
+    const allIssued = JSON.parse(
+      localStorage.getItem("issuedBooks") || "[]"
+    );
+
+    const myBooks = allIssued.filter(
+      (b: IssuedBook) =>
+        b.student === user?.name
+    );
+
+    setBooks(myBooks);
+
+  }, [user]);
+
+
+  const totalFine =
+    books.reduce((sum, b) => sum + b.fine, 0);
+
+
   return (
 
     <div className="flex h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100">
+
 
       {/* Sidebar */}
 
@@ -20,98 +53,68 @@ export function StudentShell() {
 
         </h1>
 
-        <nav className="space-y-4">
 
-          <button className="block w-full text-left hover:text-purple-600">
+        <button
+          onClick={logout}
+          className="text-red-500"
+        >
 
-            Dashboard
+          Logout
 
-          </button>
-
-          <button className="block w-full text-left hover:text-purple-600">
-
-            My Books
-
-          </button>
-
-          <button className="block w-full text-left hover:text-purple-600">
-
-            Fine
-
-          </button>
-
-          <button
-            onClick={logout}
-            className="block w-full text-left text-red-500 hover:text-red-700"
-          >
-
-            Logout
-
-          </button>
-
-        </nav>
+        </button>
 
       </div>
 
 
-      {/* Main content */}
+
+      {/* Main */}
 
       <div className="flex-1 p-10">
 
-        <h2 className="text-3xl font-bold text-purple-800 mb-6">
+        <h2 className="text-3xl font-bold mb-6">
 
           Welcome, {user?.name} ✨
 
         </h2>
 
 
+
         {/* Cards */}
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 mb-10">
 
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
 
-            <h3 className="text-lg font-semibold">
+          <div className="bg-white p-6 rounded-xl">
 
-              Books Issued
+            Books Issued
 
-            </h3>
+            <p className="text-2xl">
 
-            <p className="text-2xl mt-2">
-
-              2
+              {books.length}
 
             </p>
 
           </div>
 
 
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 rounded-xl">
 
-            <h3 className="text-lg font-semibold">
+            Fine Due
 
-              Fine Due
+            <p className="text-2xl text-red-600">
 
-            </h3>
-
-            <p className="text-2xl mt-2">
-
-              ₹50
+              ₹ {totalFine}
 
             </p>
 
           </div>
 
 
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 rounded-xl">
 
-            <h3 className="text-lg font-semibold">
+            Status
 
-              Status
-
-            </h3>
-
-            <p className="text-2xl mt-2 text-green-600">
+            <p className="text-green-600">
 
               Active
 
@@ -119,16 +122,18 @@ export function StudentShell() {
 
           </div>
 
+
         </div>
+
 
 
         {/* Table */}
 
-        <div className="mt-10 bg-white p-6 rounded-2xl shadow-lg">
+        <div className="bg-white p-6 rounded-xl">
 
-          <h3 className="text-xl font-semibold mb-4">
+          <h3 className="text-xl mb-4">
 
-            My Issued Books
+            My Books
 
           </h3>
 
@@ -137,13 +142,13 @@ export function StudentShell() {
 
             <thead>
 
-              <tr className="text-left">
+              <tr>
 
                 <th>Book</th>
 
-                <th>Due Date</th>
+                <th>Due</th>
 
-                <th>Status</th>
+                <th>Fine</th>
 
               </tr>
 
@@ -152,38 +157,24 @@ export function StudentShell() {
 
             <tbody>
 
-              <tr>
+              {books.map((b, i) => (
 
-                <td>Harry Potter</td>
+                <tr key={i}>
 
-                <td>20 Feb 2026</td>
+                  <td>{b.book}</td>
 
-                <td className="text-green-600">
+                  <td>{b.dueDate}</td>
 
-                  On Time
+                  <td>₹ {b.fine}</td>
 
-                </td>
+                </tr>
 
-              </tr>
-
-
-              <tr>
-
-                <td>Alchemist</td>
-
-                <td>15 Feb 2026</td>
-
-                <td className="text-red-600">
-
-                  Late
-
-                </td>
-
-              </tr>
+              ))}
 
             </tbody>
 
           </table>
+
 
         </div>
 
