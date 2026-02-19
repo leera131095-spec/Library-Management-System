@@ -77,7 +77,7 @@ export function IssueBookPage() {
       })
 
       if (res.ok) {
-        showToast("success", `Student "${newStudentName}" registered!`)
+        showToast("success", `Student "₹{newStudentName}" registered!`)
         setNewStudentName("")
         mutate("/api/students")
         mutate("/api/stats")
