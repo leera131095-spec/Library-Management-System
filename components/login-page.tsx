@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation"
 export function LoginPage() {
 
   const { login } = useAuth()
-
   const router = useRouter()
 
   const [username, setUsername] = useState("")
@@ -22,11 +21,9 @@ export function LoginPage() {
 
       router.refresh()
 
-    }
+    } else {
 
-    else {
-
-      setError("Invalid username or password")
+      setError("Invalid credentials ✨")
 
     }
 
@@ -39,31 +36,124 @@ export function LoginPage() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      flexDirection: "column"
+      background:
+        "linear-gradient(to bottom right, #fbc2eb, #a6c1ee)",
+      fontFamily: "serif"
     }}>
 
-      <h1>📚 Library Login</h1>
+      <div style={{
 
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+        padding: "40px",
+        borderRadius: "20px",
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        background: "rgba(255,255,255,0.8)",
 
-      <button onClick={handleLogin}>
-        Login
-      </button>
+        boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
 
-      <p style={{ color: "red" }}>
-        {error}
-      </p>
+        textAlign: "center",
+
+        width: "300px"
+
+      }}>
+
+        <h1 style={{
+          marginBottom: "20px"
+        }}>
+          📚 Enchanted Library
+        </h1>
+
+
+        <input
+
+          placeholder="Username"
+
+          value={username}
+
+          onChange={(e) => setUsername(e.target.value)}
+
+          style={{
+
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "10px",
+            border: "1px solid pink"
+
+          }}
+
+        />
+
+
+        <input
+
+          type="password"
+
+          placeholder="Password"
+
+          value={password}
+
+          onChange={(e) => setPassword(e.target.value)}
+
+          style={{
+
+            width: "100%",
+            padding: "10px",
+            marginBottom: "15px",
+            borderRadius: "10px",
+            border: "1px solid pink"
+
+          }}
+
+        />
+
+
+        <button
+
+          onClick={handleLogin}
+
+          style={{
+
+            width: "100%",
+            padding: "10px",
+
+            borderRadius: "10px",
+
+            border: "none",
+
+            background:
+              "linear-gradient(to right, #ff9a9e, #fad0c4)",
+
+            cursor: "pointer",
+
+            fontWeight: "bold"
+
+          }}
+
+        >
+
+          Enter ✨
+
+        </button>
+
+
+        <p style={{
+          color: "red",
+          marginTop: "10px"
+        }}>
+          {error}
+        </p>
+
+
+        <p style={{
+          fontSize: "12px",
+          marginTop: "15px",
+          opacity: 0.6
+        }}>
+          Welcome to your magical library
+        </p>
+
+
+      </div>
 
     </div>
 
