@@ -103,7 +103,7 @@ export function Dashboard() {
               Total Fines Collected
             </p>
             <p className="text-xl font-bold text-foreground font-serif">
-              {stats?.totalFines != null ? `₹₹{stats.totalFines}` : "--"}
+              {stats?.totalFines != null ? `₹{stats.totalFines}` : "--"}
             </p>
           </div>
         </div>
