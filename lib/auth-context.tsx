@@ -1,63 +1,99 @@
 "use client"
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  type ReactNode,
-} from "react"
+import { createContext, useContext, useState } from "react"
 
-interface AuthContextType {
-  isAuthenticated: boolean
-  user: { name: string; role: string } | null
+type User = {
+  username: string
+  password: string
+  role: "librarian" | "student"
+  name: string
+}
+
+type AuthContextType = {
+  user: User | null
   login: (username: string, password: string) => boolean
   logout: () => void
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | null>(null)
 
-const VALID_USERS = [
+
+// ⭐ YOUR REAL USERS
+const users: User[] = [
+
+  // Librarian
   {
-    username: "librarian",
-    password: "library123",
+    username: "admin",
+    password: "admin123",
+    role: "librarian",
     name: "Rose Librarian",
-    role: "Admin",
   },
-  { username: "admin", password: "admin123", name: "Admin", role: "Admin" },
+
+  // Students
+  {
+    username: "alice",
+    password: "111",
+    role: "student",
+    name: "Alice Wonderland",
+  },
+
+  {
+    username: "peter",
+    password: "222",
+    role: "student",
+    name: "Peter Pan",
+  },
+
+  {
+    username: "dorothy",
+    password: "333",
+    role: "student",
+    name: "Dorothy Gale",
+  },
+
 ]
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<{ name: string; role: string } | null>(null)
 
-  const login = useCallback((username: string, password: string) => {
-    const found = VALID_USERS.find(
-      (u) => u.username === username && u.password === password
+export function AuthProvider({ children }: any) {
+
+  const [user, setUser] = useState<User | null>(null)
+
+
+  const login = (username: string, password: string) => {
+
+    const found = users.find(
+      u =>
+        u.username === username &&
+        u.password === password
     )
-    if (found) {
-      setUser({ name: found.name, role: found.role })
-      return true
-    }
-    return false
-  }, [])
 
-  const logout = useCallback(() => {
+    if (found) {
+
+      setUser(found)
+      return true
+
+    }
+
+    return false
+
+  }
+
+
+  const logout = () => {
+
     setUser(null)
-  }, [])
+
+  }
+
 
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated: !!user, user, login, logout }}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
-}
 
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider")
-  }
-  return context
-}
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout
+    }}>
+
+      {children}
+
+    </AuthContext.Provider>
