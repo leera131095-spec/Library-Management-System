@@ -1,21 +1,82 @@
-const issues =
-  JSON.parse(
-    localStorage.getItem("issues") || "[]"
-  )
+"use client"
 
-issues.push({
+import { useState, useEffect } from "react"
 
-  studentId: selectedStudent.id,
+export function IssueBookPage() {
 
-  bookTitle: selectedBook.title,
+  const [students, setStudents] = useState<any[]>([])
 
-  issueDate: new Date(),
+  const [books, setBooks] = useState<any[]>([])
 
-  returned: false
+  const [studentId, setStudentId] = useState("")
 
-})
+  const [bookTitle, setBookTitle] = useState("")
 
-localStorage.setItem(
-  "issues",
-  JSON.stringify(issues)
-)
+  const [message, setMessage] = useState("")
+
+
+  useEffect(() => {
+
+    const storedStudents =
+      JSON.parse(localStorage.getItem("students") || "[]")
+
+    const storedBooks =
+      JSON.parse(localStorage.getItem("books") || "[]")
+
+    setStudents(storedStudents)
+
+    setBooks(storedBooks)
+
+  }, [])
+
+
+
+  const issueBook = () => {
+
+    if (!studentId || !bookTitle) {
+
+      setMessage("Please select student and book")
+
+      return
+
+    }
+
+
+    const issues =
+      JSON.parse(localStorage.getItem("issues") || "[]")
+
+
+    issues.push({
+
+      studentId: studentId,
+
+      bookTitle: bookTitle,
+
+      issueDate: new Date().toISOString(),
+
+      returned: false
+
+    })
+
+
+    localStorage.setItem(
+
+      "issues",
+
+      JSON.stringify(issues)
+
+    )
+
+
+    setMessage("Book Issued Successfully 🌸")
+
+  }
+
+
+
+  return (
+
+    <div className="p-6">
+
+
+      <h1 className="text-3xl font-bold mb-6
