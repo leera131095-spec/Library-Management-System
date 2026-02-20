@@ -1,119 +1,62 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
+import { useState } from "react"
+import { useAuth } from "@/lib/auth-context"
 
-export function LoginPage() {
+export default function LoginPage() {
 
-  const router = useRouter();
-  const { login } = useAuth();
+  const { login } = useAuth()
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [id, setId] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
-  function handleLogin(e: React.FormEvent) {
+  function handleLogin() {
 
-    e.preventDefault();
+    const success = login(id, password)
 
-    const success = login(username, password);
-
-    if (success) {
-
-      router.refresh();
-
-    } else {
-
-      setError("Invalid Username or Password");
-
+    if (!success) {
+      setError("Invalid ID or Password")
     }
 
   }
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-200 via-pink-200 to-blue-200">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-purple-200 via-pink-200 to-blue-200">
 
-      <div className="bg-white/30 backdrop-blur-lg shadow-2xl rounded-3xl p-10 w-[400px] border border-white/40">
+      <div className="bg-white p-10 rounded-3xl shadow-xl w-[400px]">
 
-        <h1 className="text-4xl font-bold text-center text-purple-800 mb-2">
-
-          Dream Library
-
+        <h1 className="text-3xl font-bold text-center mb-4">
+          Dream Library 📚
         </h1>
 
-        <p className="text-center text-gray-700 mb-6">
+        <input
+          placeholder="ID"
+          className="w-full p-2 mb-3 border rounded"
+          onChange={(e)=>setId(e.target.value)}
+        />
 
-          Welcome back, Reader 📚
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 mb-3 border rounded"
+          onChange={(e)=>setPassword(e.target.value)}
+        />
 
+        <button
+          onClick={handleLogin}
+          className="w-full bg-purple-500 text-white p-2 rounded"
+        >
+          Login
+        </button>
+
+        <p className="text-red-500 text-center mt-2">
+          {error}
         </p>
-
-        <form onSubmit={handleLogin} className="space-y-5">
-
-          <div>
-
-            <label className="block text-gray-800 mb-1">
-
-              Username
-
-            </label>
-
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full px-4 py-2 rounded-xl border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              placeholder="Enter username"
-            />
-
-          </div>
-
-          <div>
-
-            <label className="block text-gray-800 mb-1">
-
-              Password
-
-            </label>
-
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 rounded-xl border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              placeholder="Enter password"
-            />
-
-          </div>
-
-          {error && (
-
-            <p className="text-red-600 text-sm text-center">
-
-              {error}
-
-            </p>
-
-          )}
-
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-xl font-semibold hover:scale-105 transition"
-          >
-
-            Enter Library ✨
-
-          </button>
-
-        </form>
 
       </div>
 
     </div>
-
-  );
-
+  )
 }
