@@ -15,6 +15,7 @@ export default function Home() {
   if (user.role === "student")
     return <StudentDashboard />
 
-  return <AppShell />
+  if (user.role === "librarian")
+    return <AppShell />
 
 }
