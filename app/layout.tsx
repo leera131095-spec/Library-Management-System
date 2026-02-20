@@ -1,10 +1,14 @@
+import "./globals.css"
 import { AuthProvider } from "@/lib/auth-context"
 
-export default function RootLayout({ children }: any) {
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
 
-    <html>
+    <html lang="en">
 
       <body>
 
@@ -19,5 +23,4 @@ export default function RootLayout({ children }: any) {
     </html>
 
   )
-
 }
