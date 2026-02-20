@@ -1,55 +1,127 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { issuedBooks } from "@/lib/data"
+import { useState, useEffect } from "react"
 
 export function StudentDashboard() {
 
   const { user } = useAuth()
 
-  const myBooks = issuedBooks.filter(
-    b => b.studentId === user.id
-  )
+  const [issuedBooks, setIssuedBooks] = useState<any[]>([])
+  const [fine, setFine] = useState(0)
 
-  function calculateFine(date: string) {
+  useEffect(() => {
 
-    const issue = new Date(date)
-    const today = new Date()
+    const issues =
+      JSON.parse(localStorage.getItem("issues") || "[]")
 
-    const diff =
-      (today.getTime() - issue.getTime())
-      / (1000*60*60*24)
+    const myBooks =
+      issues.filter(
+        (issue: any) =>
+          issue.studentId === user?.id &&
+          !issue.returned
+      )
 
-    const late = diff - 7
+    setIssuedBooks(myBooks)
 
-    return late > 0 ? late * 5 : 0
-  }
+    let totalFine = 0
+
+    myBooks.forEach((book: any) => {
+
+      const issueDate =
+        new Date(book.issueDate)
+
+      const today = new Date()
+
+      const days =
+        Math.floor(
+          (today.getTime() - issueDate.getTime())
+          /
+          (1000 * 60 * 60 * 24)
+        )
+
+      if (days > 7)
+        totalFine += (days - 7) * 5
+
+    })
+
+    setFine(totalFine)
+
+  }, [user])
 
   return (
 
-    <div>
+    <div className="min-h-screen p-8 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
 
-      <h1 className="text-3xl mb-5">
-        Welcome {user.name}
+      <h1 className="text-4xl font-bold text-purple-800 mb-6">
+
+        📚 My Library
+
       </h1>
 
-      {myBooks.map(book => (
+      <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
 
-        <div
-          key={book.bookTitle}
-          className="p-4 bg-white shadow mb-3 rounded"
-        >
+        <h2 className="text-xl font-semibold mb-4">
 
-          <h2>{book.bookTitle}</h2>
+          Issued Books
 
-          <p>
-            Fine:
-            ₹{calculateFine(book.issueDate)}
-          </p>
+        </h2>
 
-        </div>
+        {issuedBooks.length === 0 && (
 
-      ))}
+          <p>No books issued</p>
+
+        )}
+
+        {issuedBooks.map((book, index) => (
+
+          <div key={index}
+            className="flex justify-between p-3 border-b">
+
+            <span>{book.bookTitle}</span>
+
+            <span className="text-red-500">
+
+              Fine ₹
+
+              {
+
+                Math.max(
+                  0,
+                  Math.floor(
+                    (new Date().getTime() -
+                    new Date(book.issueDate).getTime())
+                    /
+                    (1000*60*60*24)
+                  ) - 7
+                ) * 5
+
+              }
+
+            </span>
+
+          </div>
+
+        ))}
+
+      </div>
+
+
+      <div className="bg-white rounded-2xl shadow-lg p-6">
+
+        <h2 className="text-xl font-semibold mb-2">
+
+          Total Fine
+
+        </h2>
+
+        <p className="text-3xl font-bold text-red-600">
+
+          ₹{fine}
+
+        </p>
+
+      </div>
 
     </div>
 
